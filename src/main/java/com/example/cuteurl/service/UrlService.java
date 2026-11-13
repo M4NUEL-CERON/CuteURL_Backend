@@ -24,7 +24,11 @@ public class UrlService {
         this.ttl     = Duration.ofDays(ttlDays);
     }
 
+    // Browsers and most servers cap URLs around 2 KB; also bounds what a caller can store in Redis.
+    static final int MAX_URL_LENGTH = 2048;
+
     public boolean isValidUrl(String url) {
+        if (url.length() > MAX_URL_LENGTH) return false;
         try {
             URI uri = URI.create(url);
             String scheme = uri.getScheme();
