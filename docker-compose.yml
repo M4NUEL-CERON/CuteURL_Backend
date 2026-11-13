@@ -1,0 +1,13 @@
+# docker compose up --build  -> API on :8080 with a local Redis, no cloud account needed
+services:
+  redis:
+    image: redis:7-alpine
+  api:
+    build: .
+    ports: ["8080:8080"]
+    environment:
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: ""
+      CORS_ALLOWED_ORIGINS: http://localhost:5173
+    depends_on: [redis]
